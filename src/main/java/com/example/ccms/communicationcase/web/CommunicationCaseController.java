@@ -28,8 +28,7 @@ public class CommunicationCaseController {
 
   public CommunicationCaseController(
       OpenCommunicationCaseUseCase openCommunicationCaseUseCase,
-      GetCommunicationCaseByIdUseCase getCommunicationCaseByIdUseCase
-  ) {
+      GetCommunicationCaseByIdUseCase getCommunicationCaseByIdUseCase) {
     this.openCommunicationCaseUseCase = openCommunicationCaseUseCase;
     this.getCommunicationCaseByIdUseCase = getCommunicationCaseByIdUseCase;
   }
@@ -38,19 +37,17 @@ public class CommunicationCaseController {
   @ResponseStatus(HttpStatus.CREATED)
   @Operation(summary = "Open communication case")
   public OpenCommunicationCaseResponse openCommunicationCase(
-      @Valid @RequestBody OpenCommunicationCaseRequest request
-  ) {
-    CommunicationCaseId communicationCaseId = openCommunicationCaseUseCase.open(
-        new OpenCommunicationCaseCommand(
-            request.fullName(),
-            request.phoneNumber(),
-            request.sourceSystem(),
-            request.externalOrderId(),
-            request.orderSummary(),
-            request.contactReason(),
-            request.createdBy()
-        )
-    );
+      @Valid @RequestBody OpenCommunicationCaseRequest request) {
+    CommunicationCaseId communicationCaseId =
+        openCommunicationCaseUseCase.open(
+            new OpenCommunicationCaseCommand(
+                request.fullName(),
+                request.phoneNumber(),
+                request.sourceSystem(),
+                request.externalOrderId(),
+                request.orderSummary(),
+                request.contactReason(),
+                request.createdBy()));
 
     return new OpenCommunicationCaseResponse(communicationCaseId.toString());
   }
@@ -58,8 +55,6 @@ public class CommunicationCaseController {
   @GetMapping("/{id}")
   @Operation(summary = "Get communication case by id")
   public CommunicationCaseDetails getCommunicationCaseById(@PathVariable String id) {
-    return getCommunicationCaseByIdUseCase.getById(
-        new GetCommunicationCaseByIdQuery(id)
-    );
+    return getCommunicationCaseByIdUseCase.getById(new GetCommunicationCaseByIdQuery(id));
   }
 }

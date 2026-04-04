@@ -3,11 +3,10 @@ package com.example.ccms.communicationcase.infrastructure.persistence;
 import com.example.ccms.communicationcase.domain.model.CommunicationCase;
 import com.example.ccms.communicationcase.domain.model.CommunicationCaseId;
 import com.example.ccms.communicationcase.domain.repository.CommunicationCaseRepository;
-import org.springframework.stereotype.Repository;
-
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import org.springframework.stereotype.Repository;
 
 @Repository
 public class InMemoryCommunicationCaseRepository implements CommunicationCaseRepository {

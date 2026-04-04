@@ -21,20 +21,19 @@ public class GetCommunicationCaseByIdUseCase {
   public CommunicationCaseDetails getById(GetCommunicationCaseByIdQuery query) {
     CommunicationCaseId id = new CommunicationCaseId(UUID.fromString(query.communicationCaseId()));
 
-    CommunicationCase communicationCase = repository.findById(id)
-        .orElseThrow(() -> new CommunicationCaseNotFoundException(
-            "Communication case not found: " + query.communicationCaseId()
-        ));
+    CommunicationCase communicationCase =
+        repository
+            .findById(id)
+            .orElseThrow(
+                () ->
+                    new CommunicationCaseNotFoundException(
+                        "Communication case not found: " + query.communicationCaseId()));
 
-    List<CommunicationCaseDetails.CallAttemptDetails> callAttemptDetails = communicationCase.getCallAttempts()
-        .stream()
-        .map(this::mapCallAttempt)
-        .toList();
+    List<CommunicationCaseDetails.CallAttemptDetails> callAttemptDetails =
+        communicationCase.getCallAttempts().stream().map(this::mapCallAttempt).toList();
 
-    List<CommunicationCaseDetails.MessageDetails> messageDetails = communicationCase.getMessages()
-        .stream()
-        .map(this::mapMessage)
-        .toList();
+    List<CommunicationCaseDetails.MessageDetails> messageDetails =
+        communicationCase.getMessages().stream().map(this::mapMessage).toList();
 
     return new CommunicationCaseDetails(
         communicationCase.getId().toString(),
@@ -49,16 +48,12 @@ public class GetCommunicationCaseByIdUseCase {
         communicationCase.getOpenedAt(),
         communicationCase.getClosedAt(),
         callAttemptDetails,
-        messageDetails
-    );
+        messageDetails);
   }
 
   private CommunicationCaseDetails.CallAttemptDetails mapCallAttempt(CallAttempt callAttempt) {
     return new CommunicationCaseDetails.CallAttemptDetails(
-        callAttempt.getAttemptedBy(),
-        callAttempt.getAttemptedAt(),
-        callAttempt.getResult().name()
-    );
+        callAttempt.getAttemptedBy(), callAttempt.getAttemptedAt(), callAttempt.getResult().name());
   }
 
   private CommunicationCaseDetails.MessageDetails mapMessage(Message message) {
@@ -67,7 +62,6 @@ public class GetCommunicationCaseByIdUseCase {
         message.getChannel().name(),
         message.getText(),
         message.getDeliveryStatus() != null ? message.getDeliveryStatus().name() : null,
-        message.getCreatedAt()
-    );
+        message.getCreatedAt());
   }
 }

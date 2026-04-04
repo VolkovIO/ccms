@@ -12,24 +12,18 @@ class CommunicationCaseTest {
 
   @Test
   void shouldOpenCommunicationCaseWithOpenStatus() {
-    CustomerSnapshot customer = new CustomerSnapshot(
-        "Ivan Petrov",
-        "+79001234567"
-    );
+    CustomerSnapshot customer = new CustomerSnapshot("Ivan Petrov", "+79001234567");
 
-    ExternalOrderReference orderReference = new ExternalOrderReference(
-        "1C",
-        "ORDER-123",
-        "Washing machine ready for pickup"
-    );
+    ExternalOrderReference orderReference =
+        new ExternalOrderReference("1C", "ORDER-123", "Washing machine ready for pickup");
 
-    CommunicationCase communicationCase = CommunicationCase.open(
-        customer,
-        orderReference,
-        ContactReason.READY_FOR_PICKUP,
-        "operator1",
-        Instant.parse("2026-04-03T10:00:00Z")
-    );
+    CommunicationCase communicationCase =
+        CommunicationCase.open(
+            customer,
+            orderReference,
+            ContactReason.READY_FOR_PICKUP,
+            "operator1",
+            Instant.parse("2026-04-03T10:00:00Z"));
 
     assertNotNull(communicationCase.getId());
     assertEquals(CommunicationCaseStatus.OPEN, communicationCase.getStatus());
@@ -46,10 +40,7 @@ class CommunicationCaseTest {
     CommunicationCase communicationCase = newCase();
 
     communicationCase.registerCallAttempt(
-        "operator1",
-        CallAttemptResult.NOT_REACHED,
-        Instant.parse("2026-04-03T10:10:00Z")
-    );
+        "operator1", CallAttemptResult.NOT_REACHED, Instant.parse("2026-04-03T10:10:00Z"));
 
     assertEquals(1, communicationCase.getCallAttempts().size());
 
@@ -62,11 +53,11 @@ class CommunicationCaseTest {
   void shouldPrepareRequestAndMarkOutgoingMessageSent() {
     CommunicationCase communicationCase = newCase();
 
-    Message message = communicationCase.prepareOutgoingMessage(
-        MessageChannel.TEST,
-        "We called you but could not reach you. Please reply.",
-        Instant.parse("2026-04-03T10:15:00Z")
-    );
+    Message message =
+        communicationCase.prepareOutgoingMessage(
+            MessageChannel.TEST,
+            "We called you but could not reach you. Please reply.",
+            Instant.parse("2026-04-03T10:15:00Z"));
 
     assertEquals(1, communicationCase.getMessages().size());
     assertEquals(MessageDeliveryStatus.PREPARED, message.getDeliveryStatus());
@@ -84,11 +75,11 @@ class CommunicationCaseTest {
   void shouldMoveToFollowUpRequiredWhenMessageFails() {
     CommunicationCase communicationCase = newCase();
 
-    Message message = communicationCase.prepareOutgoingMessage(
-        MessageChannel.TEST,
-        "Please contact us regarding your repair order.",
-        Instant.parse("2026-04-03T10:20:00Z")
-    );
+    Message message =
+        communicationCase.prepareOutgoingMessage(
+            MessageChannel.TEST,
+            "Please contact us regarding your repair order.",
+            Instant.parse("2026-04-03T10:20:00Z"));
 
     communicationCase.requestMessage(message);
     communicationCase.markMessageFailed(message);
@@ -101,11 +92,9 @@ class CommunicationCaseTest {
   void shouldReceiveIncomingMessageAndUpdateStatus() {
     CommunicationCase communicationCase = newCase();
 
-    Message incoming = communicationCase.receiveIncomingMessage(
-        MessageChannel.TEST,
-        "I will come tomorrow",
-        Instant.parse("2026-04-03T11:00:00Z")
-    );
+    Message incoming =
+        communicationCase.receiveIncomingMessage(
+            MessageChannel.TEST, "I will come tomorrow", Instant.parse("2026-04-03T11:00:00Z"));
 
     assertEquals(MessageDirection.INBOUND, incoming.getDirection());
     assertNull(incoming.getDeliveryStatus());
@@ -129,14 +118,14 @@ class CommunicationCaseTest {
     CommunicationCase communicationCase = newCase();
     communicationCase.close(Instant.parse("2026-04-03T12:00:00Z"));
 
-    IllegalStateException exception = assertThrows(
-        IllegalStateException.class,
-        () -> communicationCase.registerCallAttempt(
-            "operator1",
-            CallAttemptResult.NOT_REACHED,
-            Instant.parse("2026-04-03T12:10:00Z")
-        )
-    );
+    IllegalStateException exception =
+        assertThrows(
+            IllegalStateException.class,
+            () ->
+                communicationCase.registerCallAttempt(
+                    "operator1",
+                    CallAttemptResult.NOT_REACHED,
+                    Instant.parse("2026-04-03T12:10:00Z")));
 
     assertEquals("Communication case is already closed", exception.getMessage());
   }
@@ -147,7 +136,6 @@ class CommunicationCaseTest {
         new ExternalOrderReference("1C", "ORDER-123", "TV repair status update"),
         ContactReason.UNREACHABLE_BY_PHONE,
         "operator1",
-        Instant.parse("2026-04-03T10:00:00Z")
-    );
+        Instant.parse("2026-04-03T10:00:00Z"));
   }
 }

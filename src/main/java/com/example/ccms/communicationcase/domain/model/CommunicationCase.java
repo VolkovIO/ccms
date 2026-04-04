@@ -27,11 +27,11 @@ public final class CommunicationCase {
       ExternalOrderReference externalOrderReference,
       ContactReason contactReason,
       Instant openedAt,
-      String createdBy
-  ) {
+      String createdBy) {
     this.id = Objects.requireNonNull(id, "id must not be null");
     this.customer = Objects.requireNonNull(customer, "customer must not be null");
-    this.externalOrderReference = Objects.requireNonNull(externalOrderReference, "externalOrderReference must not be null");
+    this.externalOrderReference =
+        Objects.requireNonNull(externalOrderReference, "externalOrderReference must not be null");
     this.contactReason = Objects.requireNonNull(contactReason, "contactReason must not be null");
     this.openedAt = Objects.requireNonNull(openedAt, "openedAt must not be null");
 
@@ -48,19 +48,18 @@ public final class CommunicationCase {
       ExternalOrderReference externalOrderReference,
       ContactReason contactReason,
       String createdBy,
-      Instant openedAt
-  ) {
+      Instant openedAt) {
     return new CommunicationCase(
         CommunicationCaseId.newId(),
         customer,
         externalOrderReference,
         contactReason,
         openedAt,
-        createdBy
-    );
+        createdBy);
   }
 
-  public void registerCallAttempt(String attemptedBy, CallAttemptResult result, Instant attemptedAt) {
+  public void registerCallAttempt(
+      String attemptedBy, CallAttemptResult result, Instant attemptedAt) {
     ensureNotClosed();
     callAttempts.add(new CallAttempt(attemptedBy, attemptedAt, result));
   }

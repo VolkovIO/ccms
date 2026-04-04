@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '4.0.5'
 	id 'io.spring.dependency-management' version '1.1.7'
+	id 'com.diffplug.spotless' version '8.4.0'
 }
 
 group = 'com.example'
@@ -30,3 +31,23 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+// Developer notes:
+// `gradlew spotlessCheck`  - checks whether code matches formatting rules
+// `gradlew spotlessApply`  - rewrites code to match formatting rules
+spotless {
+	java {
+		// Target all Java files under src/main/java and src/test/java.
+		target 'src/*/java/**/*.java'
+
+		// Use Google Java Format as the single source of formatting rules.
+		googleJavaFormat()
+
+		// Keep imports clean and consistent.
+		removeUnusedImports()
+
+		// Keep annotation layout consistent across the project.
+		formatAnnotations()
+	}
+}
+

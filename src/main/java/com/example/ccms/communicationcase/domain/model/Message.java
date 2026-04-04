@@ -18,8 +18,7 @@ public final class Message {
       MessageChannel channel,
       String text,
       MessageDeliveryStatus deliveryStatus,
-      Instant createdAt
-  ) {
+      Instant createdAt) {
     this.id = UUID.randomUUID();
     this.direction = Objects.requireNonNull(direction, "direction must not be null");
     this.channel = Objects.requireNonNull(channel, "channel must not be null");
@@ -35,22 +34,11 @@ public final class Message {
 
   public static Message prepareOutgoing(MessageChannel channel, String text, Instant createdAt) {
     return new Message(
-        MessageDirection.OUTBOUND,
-        channel,
-        text,
-        MessageDeliveryStatus.PREPARED,
-        createdAt
-    );
+        MessageDirection.OUTBOUND, channel, text, MessageDeliveryStatus.PREPARED, createdAt);
   }
 
   public static Message receiveIncoming(MessageChannel channel, String text, Instant createdAt) {
-    return new Message(
-        MessageDirection.INBOUND,
-        channel,
-        text,
-        null,
-        createdAt
-    );
+    return new Message(MessageDirection.INBOUND, channel, text, null, createdAt);
   }
 
   public void markRequested() {

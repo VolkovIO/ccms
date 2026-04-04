@@ -14,30 +14,24 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(CommunicationCaseNotFoundException.class)
   @ResponseStatus(HttpStatus.NOT_FOUND)
   public ApiErrorResponse handleCommunicationCaseNotFound(
-      CommunicationCaseNotFoundException ex,
-      HttpServletRequest request
-  ) {
+      CommunicationCaseNotFoundException ex, HttpServletRequest request) {
     return new ApiErrorResponse(
         Instant.now(),
         HttpStatus.NOT_FOUND.value(),
         HttpStatus.NOT_FOUND.getReasonPhrase(),
         ex.getMessage(),
-        request.getRequestURI()
-    );
+        request.getRequestURI());
   }
 
   @ExceptionHandler(IllegalArgumentException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   public ApiErrorResponse handleIllegalArgument(
-      IllegalArgumentException ex,
-      HttpServletRequest request
-  ) {
+      IllegalArgumentException ex, HttpServletRequest request) {
     return new ApiErrorResponse(
         Instant.now(),
         HttpStatus.BAD_REQUEST.value(),
         HttpStatus.BAD_REQUEST.getReasonPhrase(),
         ex.getMessage(),
-        request.getRequestURI()
-    );
+        request.getRequestURI());
   }
 }

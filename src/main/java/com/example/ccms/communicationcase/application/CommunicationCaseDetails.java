@@ -18,24 +18,10 @@ public record CommunicationCaseDetails(
     Instant openedAt,
     Instant closedAt,
     List<CallAttemptDetails> callAttempts,
-    List<MessageDetails> messages
-) {
+    List<MessageDetails> messages) {
 
-  public record CallAttemptDetails(
-      String attemptedBy,
-      Instant attemptedAt,
-      String result
-  ) {
-
-  }
+  public record CallAttemptDetails(String attemptedBy, Instant attemptedAt, String result) {}
 
   public record MessageDetails(
-      String direction,
-      String channel,
-      String text,
-      String deliveryStatus,
-      Instant createdAt
-  ) {
-
-  }
+      String direction, String channel, String text, String deliveryStatus, Instant createdAt) {}
 }

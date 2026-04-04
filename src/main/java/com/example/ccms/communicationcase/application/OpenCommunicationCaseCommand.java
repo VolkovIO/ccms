@@ -9,6 +9,4 @@ public record OpenCommunicationCaseCommand(
     String externalOrderId,
     String orderSummary,
     ContactReason contactReason,
-    String createdBy
-) {
-}
+    String createdBy) {}
