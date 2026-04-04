@@ -3,6 +3,7 @@ plugins {
 	id 'org.springframework.boot' version '4.0.5'
 	id 'io.spring.dependency-management' version '1.1.7'
 	id 'com.diffplug.spotless' version '8.4.0'
+	id 'checkstyle'
 }
 
 group = 'com.example'
@@ -49,5 +50,26 @@ spotless {
 		// Keep annotation layout consistent across the project.
 		formatAnnotations()
 	}
+}
+
+// Developer notes:
+// `gradlew checkstyleMain` - checks production source code style
+// `gradlew checkstyleTest` - checks test source code style
+// `gradlew check` - runs the standard verification lifecycle, including Checkstyle
+checkstyle {
+	// Current Checkstyle version.
+	toolVersion = '13.4.0'
+
+	// Fail the build if any violations are found.
+	ignoreFailures = false
+
+	// Show violations in the console output.
+	showViolations = true
+
+	// Use the official Google Java Style config packaged inside the Checkstyle JAR.
+	def archive = configurations.checkstyle.resolve().find {
+		it.name.startsWith('checkstyle')
+	}
+	config = resources.text.fromArchiveEntry(archive, 'google_checks.xml')
 }
 
