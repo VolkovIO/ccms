@@ -5,6 +5,7 @@ plugins {
 	id 'com.diffplug.spotless' version '8.4.0'
 	id 'checkstyle'
 	id 'pmd'
+	id 'com.github.spotbugs' version '6.4.8'
 }
 
 group = 'com.example'
@@ -95,6 +96,35 @@ pmd {
 
 tasks.named('pmdMain') {
 	// Fail the build if PMD finds violations.
+	ignoreFailures = false
+}
+
+// Developer notes:
+// `gradlew spotbugsMain` - analyzes compiled production classes
+// `gradlew spotbugsTest` - analyzes compiled test classes
+// `gradlew check` - runs the standard verification lifecycle, including SpotBugs
+spotbugs {
+	// Configure analysis sensitivity.
+	effort = 'max'
+	reportLevel = 'low'
+
+	// Use project-specific exclusions for false positives.
+	excludeFilter = file('config/spotbugs/spotbugs-exclude.xml')
+
+	// Do not ignore violations globally.
+	ignoreFailures = false
+
+	// Show progress during analysis.
+	showProgress = true
+}
+
+tasks.named('spotbugsMain') {
+	reports {
+		html.required = true
+		xml.required = false
+	}
+
+	// Fail the build if SpotBugs finds violations in main code.
 	ignoreFailures = false
 }
 

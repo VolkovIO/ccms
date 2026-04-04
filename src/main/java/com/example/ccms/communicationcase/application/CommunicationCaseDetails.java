@@ -20,6 +20,11 @@ public record CommunicationCaseDetails(
     List<CallAttemptDetails> callAttempts,
     List<MessageDetails> messages) {
 
+  public CommunicationCaseDetails {
+    callAttempts = List.copyOf(callAttempts);
+    messages = List.copyOf(messages);
+  }
+
   public record CallAttemptDetails(String attemptedBy, Instant attemptedAt, String result) {}
 
   public record MessageDetails(
