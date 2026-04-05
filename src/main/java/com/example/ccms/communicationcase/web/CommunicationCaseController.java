@@ -5,6 +5,8 @@ import com.example.ccms.communicationcase.application.GetCommunicationCaseByIdQu
 import com.example.ccms.communicationcase.application.GetCommunicationCaseByIdUseCase;
 import com.example.ccms.communicationcase.application.OpenCommunicationCaseCommand;
 import com.example.ccms.communicationcase.application.OpenCommunicationCaseUseCase;
+import com.example.ccms.communicationcase.application.RegisterCallAttemptCommand;
+import com.example.ccms.communicationcase.application.RegisterCallAttemptUseCase;
 import com.example.ccms.communicationcase.domain.model.CommunicationCaseId;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -25,12 +27,15 @@ public class CommunicationCaseController {
 
   private final OpenCommunicationCaseUseCase openCommunicationCaseUseCase;
   private final GetCommunicationCaseByIdUseCase getCommunicationCaseByIdUseCase;
+  private final RegisterCallAttemptUseCase registerCallAttemptUseCase;
 
   public CommunicationCaseController(
       OpenCommunicationCaseUseCase openCommunicationCaseUseCase,
-      GetCommunicationCaseByIdUseCase getCommunicationCaseByIdUseCase) {
+      GetCommunicationCaseByIdUseCase getCommunicationCaseByIdUseCase,
+      RegisterCallAttemptUseCase registerCallAttemptUseCase) {
     this.openCommunicationCaseUseCase = openCommunicationCaseUseCase;
     this.getCommunicationCaseByIdUseCase = getCommunicationCaseByIdUseCase;
+    this.registerCallAttemptUseCase = registerCallAttemptUseCase;
   }
 
   @PostMapping
@@ -56,5 +61,14 @@ public class CommunicationCaseController {
   @Operation(summary = "Get communication case by id")
   public CommunicationCaseDetails getCommunicationCaseById(@PathVariable String id) {
     return getCommunicationCaseByIdUseCase.getById(new GetCommunicationCaseByIdQuery(id));
+  }
+
+  @PostMapping("/{id}/call-attempts")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  @Operation(summary = "Register call attempt")
+  public void registerCallAttempt(
+      @PathVariable String id, @Valid @RequestBody RegisterCallAttemptRequest request) {
+    registerCallAttemptUseCase.register(
+        new RegisterCallAttemptCommand(id, request.attemptedBy(), request.result()));
   }
 }
