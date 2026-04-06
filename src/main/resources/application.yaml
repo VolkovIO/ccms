@@ -1,3 +1,6 @@
 spring:
   application:
     name: ccms
+  output:
+    ansi:
+      enabled: ALWAYS
