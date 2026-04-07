@@ -1,6 +1,9 @@
 package com.example.ccms.communicationcase.application;
 
-import com.example.ccms.communicationcase.domain.model.*;
+import com.example.ccms.communicationcase.domain.model.CommunicationCase;
+import com.example.ccms.communicationcase.domain.model.CommunicationCaseId;
+import com.example.ccms.communicationcase.domain.model.CustomerSnapshot;
+import com.example.ccms.communicationcase.domain.model.ExternalOrderReference;
 import com.example.ccms.communicationcase.domain.repository.CommunicationCaseRepository;
 import java.time.Instant;
 import org.springframework.stereotype.Service;
