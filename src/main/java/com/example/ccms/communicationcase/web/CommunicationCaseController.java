@@ -1,5 +1,7 @@
 package com.example.ccms.communicationcase.web;
 
+import com.example.ccms.communicationcase.application.CloseCommunicationCaseCommand;
+import com.example.ccms.communicationcase.application.CloseCommunicationCaseUseCase;
 import com.example.ccms.communicationcase.application.CommunicationCaseDetails;
 import com.example.ccms.communicationcase.application.GetCommunicationCaseByIdQuery;
 import com.example.ccms.communicationcase.application.GetCommunicationCaseByIdUseCase;
@@ -36,6 +38,7 @@ public class CommunicationCaseController {
   private final RegisterCallAttemptUseCase registerCallAttemptUseCase;
   private final SendOutgoingMessageUseCase sendOutgoingMessageUseCase;
   private final ReceiveIncomingMessageUseCase receiveIncomingMessageUseCase;
+  private final CloseCommunicationCaseUseCase closeCommunicationCaseUseCase;
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
@@ -87,5 +90,12 @@ public class CommunicationCaseController {
       @PathVariable String id, @Valid @RequestBody ReceiveIncomingMessageRequest request) {
     receiveIncomingMessageUseCase.receive(
         new ReceiveIncomingMessageCommand(id, request.channel(), request.text()));
+  }
+
+  @PostMapping("/{id}/close")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  @Operation(summary = "Close communication case")
+  public void closeCommunicationCase(@PathVariable String id) {
+    closeCommunicationCaseUseCase.close(new CloseCommunicationCaseCommand(id));
   }
 }
