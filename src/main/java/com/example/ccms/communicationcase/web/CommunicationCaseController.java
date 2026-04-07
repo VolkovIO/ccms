@@ -5,6 +5,8 @@ import com.example.ccms.communicationcase.application.GetCommunicationCaseByIdQu
 import com.example.ccms.communicationcase.application.GetCommunicationCaseByIdUseCase;
 import com.example.ccms.communicationcase.application.OpenCommunicationCaseCommand;
 import com.example.ccms.communicationcase.application.OpenCommunicationCaseUseCase;
+import com.example.ccms.communicationcase.application.ReceiveIncomingMessageCommand;
+import com.example.ccms.communicationcase.application.ReceiveIncomingMessageUseCase;
 import com.example.ccms.communicationcase.application.RegisterCallAttemptCommand;
 import com.example.ccms.communicationcase.application.RegisterCallAttemptUseCase;
 import com.example.ccms.communicationcase.application.SendOutgoingMessageCommand;
@@ -33,6 +35,7 @@ public class CommunicationCaseController {
   private final GetCommunicationCaseByIdUseCase getCommunicationCaseByIdUseCase;
   private final RegisterCallAttemptUseCase registerCallAttemptUseCase;
   private final SendOutgoingMessageUseCase sendOutgoingMessageUseCase;
+  private final ReceiveIncomingMessageUseCase receiveIncomingMessageUseCase;
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
@@ -75,5 +78,14 @@ public class CommunicationCaseController {
       @PathVariable String id, @Valid @RequestBody SendOutgoingMessageRequest request) {
     sendOutgoingMessageUseCase.send(
         new SendOutgoingMessageCommand(id, request.channel(), request.text()));
+  }
+
+  @PostMapping("/{id}/messages/incoming")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  @Operation(summary = "Receive incoming message")
+  public void receiveIncomingMessage(
+      @PathVariable String id, @Valid @RequestBody ReceiveIncomingMessageRequest request) {
+    receiveIncomingMessageUseCase.receive(
+        new ReceiveIncomingMessageCommand(id, request.channel(), request.text()));
   }
 }
