@@ -1,8 +1,8 @@
 package com.example.ccms.communicationcase.infrastructure.query;
 
-import com.example.ccms.communicationcase.application.CommunicationCaseListItem;
-import com.example.ccms.communicationcase.application.SearchCommunicationCasesQuery;
+import com.example.ccms.communicationcase.application.query.CommunicationCaseListItem;
 import com.example.ccms.communicationcase.application.query.CommunicationCaseQueryRepository;
+import com.example.ccms.communicationcase.application.query.SearchCommunicationCasesQuery;
 import com.example.ccms.communicationcase.domain.model.CommunicationCase;
 import com.example.ccms.communicationcase.domain.repository.CommunicationCaseRepository;
 import java.util.Comparator;

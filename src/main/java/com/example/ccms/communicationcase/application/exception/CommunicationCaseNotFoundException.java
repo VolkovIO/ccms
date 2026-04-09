@@ -1,4 +1,4 @@
-package com.example.ccms.communicationcase.application;
+package com.example.ccms.communicationcase.application.exception;
 
 import java.io.Serial;
 

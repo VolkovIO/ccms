@@ -1,6 +1,5 @@
-package com.example.ccms.communicationcase.application;
+package com.example.ccms.communicationcase.application.query;
 
-import com.example.ccms.communicationcase.application.query.CommunicationCaseQueryRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

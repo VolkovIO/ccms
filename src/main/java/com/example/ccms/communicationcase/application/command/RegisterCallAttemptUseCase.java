@@ -1,5 +1,6 @@
-package com.example.ccms.communicationcase.application;
+package com.example.ccms.communicationcase.application.command;
 
+import com.example.ccms.communicationcase.application.exception.CommunicationCaseNotFoundException;
 import com.example.ccms.communicationcase.domain.model.CommunicationCase;
 import com.example.ccms.communicationcase.domain.model.CommunicationCaseId;
 import com.example.ccms.communicationcase.domain.repository.CommunicationCaseRepository;

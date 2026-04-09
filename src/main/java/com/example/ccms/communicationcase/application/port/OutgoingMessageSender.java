@@ -1,4 +1,4 @@
-package com.example.ccms.communicationcase.application;
+package com.example.ccms.communicationcase.application.port;
 
 import com.example.ccms.communicationcase.domain.model.MessageChannel;
 

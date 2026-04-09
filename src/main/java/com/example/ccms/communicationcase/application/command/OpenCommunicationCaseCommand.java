@@ -1,4 +1,4 @@
-package com.example.ccms.communicationcase.application;
+package com.example.ccms.communicationcase.application.command;
 
 import com.example.ccms.communicationcase.domain.model.ContactReason;
 
