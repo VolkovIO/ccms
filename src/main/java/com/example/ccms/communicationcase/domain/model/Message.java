@@ -3,7 +3,9 @@ package com.example.ccms.communicationcase.domain.model;
 import java.time.Instant;
 import java.util.Objects;
 import java.util.UUID;
+import lombok.Getter;
 
+@Getter
 public final class Message {
 
   private final UUID id;
@@ -14,12 +16,13 @@ public final class Message {
   private final Instant createdAt;
 
   private Message(
+      UUID id,
       MessageDirection direction,
       MessageChannel channel,
       String text,
       MessageDeliveryStatus deliveryStatus,
       Instant createdAt) {
-    this.id = UUID.randomUUID();
+    this.id = Objects.requireNonNull(id, "id must not be null");
     this.direction = Objects.requireNonNull(direction, "direction must not be null");
     this.channel = Objects.requireNonNull(channel, "channel must not be null");
 
@@ -30,15 +33,32 @@ public final class Message {
     this.text = text;
     this.deliveryStatus = deliveryStatus;
     this.createdAt = Objects.requireNonNull(createdAt, "createdAt must not be null");
+
+    validateState();
   }
 
   public static Message prepareOutgoing(MessageChannel channel, String text, Instant createdAt) {
     return new Message(
-        MessageDirection.OUTBOUND, channel, text, MessageDeliveryStatus.PREPARED, createdAt);
+        UUID.randomUUID(),
+        MessageDirection.OUTBOUND,
+        channel,
+        text,
+        MessageDeliveryStatus.PREPARED,
+        createdAt);
   }
 
   public static Message receiveIncoming(MessageChannel channel, String text, Instant createdAt) {
-    return new Message(MessageDirection.INBOUND, channel, text, null, createdAt);
+    return new Message(UUID.randomUUID(), MessageDirection.INBOUND, channel, text, null, createdAt);
+  }
+
+  public static Message restore(
+      UUID id,
+      MessageDirection direction,
+      MessageChannel channel,
+      String text,
+      MessageDeliveryStatus deliveryStatus,
+      Instant createdAt) {
+    return new Message(id, direction, channel, text, deliveryStatus, createdAt);
   }
 
   public void markRequested() {
@@ -62,27 +82,12 @@ public final class Message {
     }
   }
 
-  public UUID getId() {
-    return id;
-  }
-
-  public MessageDirection getDirection() {
-    return direction;
-  }
-
-  public MessageChannel getChannel() {
-    return channel;
-  }
-
-  public String getText() {
-    return text;
-  }
-
-  public MessageDeliveryStatus getDeliveryStatus() {
-    return deliveryStatus;
-  }
-
-  public Instant getCreatedAt() {
-    return createdAt;
+  private void validateState() {
+    if (direction == MessageDirection.INBOUND && deliveryStatus != null) {
+      throw new IllegalArgumentException("Inbound message must not have delivery status");
+    }
+    if (direction == MessageDirection.OUTBOUND && deliveryStatus == null) {
+      throw new IllegalArgumentException("Outbound message must have delivery status");
+    }
   }
 }

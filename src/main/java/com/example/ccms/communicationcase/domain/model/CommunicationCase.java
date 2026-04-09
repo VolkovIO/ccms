@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+@SuppressWarnings("PMD.CyclomaticComplexity")
 public final class CommunicationCase {
 
   private final CommunicationCaseId id;
@@ -56,6 +57,30 @@ public final class CommunicationCase {
         contactReason,
         openedAt,
         createdBy);
+  }
+
+  public static CommunicationCase restore(
+      CommunicationCaseId id,
+      CustomerSnapshot customer,
+      ExternalOrderReference externalOrderReference,
+      ContactReason contactReason,
+      CommunicationCaseStatus status,
+      String createdBy,
+      Instant openedAt,
+      Instant closedAt,
+      List<CallAttempt> callAttempts,
+      List<Message> messages) {
+
+    CommunicationCase communicationCase =
+        new CommunicationCase(
+            id, customer, externalOrderReference, contactReason, openedAt, createdBy);
+
+    communicationCase.status = Objects.requireNonNull(status, "status must not be null");
+    communicationCase.closedAt = closedAt;
+    communicationCase.callAttempts.addAll(List.copyOf(callAttempts));
+    communicationCase.messages.addAll(List.copyOf(messages));
+
+    return communicationCase;
   }
 
   public void registerCallAttempt(
