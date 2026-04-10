@@ -1,6 +1,6 @@
 package com.example.ccms.shared.web;
 
-import com.example.ccms.communicationcase.application.CommunicationCaseNotFoundException;
+import com.example.ccms.communicationcase.application.exception.CommunicationCaseNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import java.time.Instant;
 import org.springframework.http.HttpStatus;

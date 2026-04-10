@@ -1,6 +1,22 @@
+server:
+  port: 8080
+
 spring:
   application:
     name: ccms
   output:
     ansi:
       enabled: ALWAYS
+  profiles:
+    active: jdbc
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ccms
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+

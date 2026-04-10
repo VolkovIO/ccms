@@ -1,7 +1,7 @@
 package com.example.ccms.communicationcase.infrastructure.messaging;
 
-import com.example.ccms.communicationcase.application.OutgoingMessageSender;
-import com.example.ccms.communicationcase.application.SendMessageResult;
+import com.example.ccms.communicationcase.application.port.OutgoingMessageSender;
+import com.example.ccms.communicationcase.application.port.SendMessageResult;
 import com.example.ccms.communicationcase.domain.model.MessageChannel;
 import org.springframework.stereotype.Component;
 
