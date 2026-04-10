@@ -1,9 +1,9 @@
 package com.example.ccms.communicationcase.application.command;
 
 import com.example.ccms.communicationcase.application.exception.CommunicationCaseNotFoundException;
+import com.example.ccms.communicationcase.application.port.OutgoingMessageSendRequest;
 import com.example.ccms.communicationcase.application.port.OutgoingMessageSender;
 import com.example.ccms.communicationcase.application.port.SendMessageResult;
-import com.example.ccms.communicationcase.application.port.SendOutgoingMessageRequest;
 import com.example.ccms.communicationcase.domain.model.CommunicationCase;
 import com.example.ccms.communicationcase.domain.model.CommunicationCaseId;
 import com.example.ccms.communicationcase.domain.model.Message;
@@ -71,7 +71,7 @@ public class SendOutgoingMessageUseCase {
 
     SendMessageResult result =
         outgoingMessageSender.send(
-            new SendOutgoingMessageRequest(
+            new OutgoingMessageSendRequest(
                 communicationCase.getCustomer().phoneNumber(), command.channel(), command.text()));
 
     if (result.successful()) {
