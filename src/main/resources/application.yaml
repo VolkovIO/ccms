@@ -8,7 +8,7 @@ spring:
     ansi:
       enabled: ALWAYS
   profiles:
-    active: jdbc,stub-messaging,fake-provider
+    active: jdbc,http-messaging,fake-provider
 
   datasource:
     url: jdbc:postgresql://localhost:5432/ccms
@@ -20,3 +20,9 @@ spring:
     enabled: true
     change-log: classpath:db/changelog/db.changelog-master.yaml
 
+app:
+  messaging:
+    provider:
+      host: localhost
+      base-url: http://${app.messaging.provider.host}:${server.port}
+      send-message-path: /fake-provider/messages
