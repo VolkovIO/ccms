@@ -8,7 +8,7 @@ spring:
     ansi:
       enabled: ALWAYS
   profiles:
-    active: jdbc,stub-messaging
+    active: jdbc,stub-messaging,fake-provider
 
   datasource:
     url: jdbc:postgresql://localhost:5432/ccms

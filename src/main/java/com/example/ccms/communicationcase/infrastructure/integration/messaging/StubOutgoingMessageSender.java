@@ -1,4 +1,4 @@
-package com.example.ccms.communicationcase.infrastructure.messaging;
+package com.example.ccms.communicationcase.infrastructure.integration.messaging;
 
 import com.example.ccms.communicationcase.application.port.OutgoingMessageSendRequest;
 import com.example.ccms.communicationcase.application.port.OutgoingMessageSender;
