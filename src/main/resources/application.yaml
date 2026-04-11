@@ -23,6 +23,10 @@ spring:
 app:
   messaging:
     provider:
-      host: localhost
-      base-url: http://${app.messaging.provider.host}:${server.port}
+      base-url: http://localhost:${server.port}
       send-message-path: /fake-provider/messages
+
+  fake-provider:
+    callback:
+      base-url: http://localhost:${server.port}
+      incoming-message-path-template: /api/communication-cases/{id}/messages/incoming
