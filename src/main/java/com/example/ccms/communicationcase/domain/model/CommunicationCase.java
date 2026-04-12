@@ -142,7 +142,11 @@ public final class CommunicationCase {
   }
 
   private void ensureMessageBelongsToCase(Message message) {
-    if (!messages.contains(message)) {
+    boolean belongsToCase =
+        messages.stream()
+            .anyMatch(existingMessage -> existingMessage.getId().equals(message.getId()));
+
+    if (!belongsToCase) {
       throw new IllegalArgumentException("Message does not belong to this communication case");
     }
   }
